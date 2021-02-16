@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{db0a029e-e3e0-4353-a56a-a23c1b3428b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\platform">
+      <UniqueIdentifier>{f396bf6a-d9fc-400d-a7c7-6de6802ad395}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\a3_app_utils">
+      <UniqueIdentifier>{144d3642-13d0-400b-854a-4efe9ad5a836}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\platform\a3_app_utils">
+      <UniqueIdentifier>{0ef1042c-af2b-42fb-850c-2a417a9c9566}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\platform\a3_app_utils\Win32">
+      <UniqueIdentifier>{bdd4799c-f13c-4a10-829d-648d3a140b26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\platform\a3_app_utils\Win32\_internal">
+      <UniqueIdentifier>{30ad3549-898f-4d96-ac47-c04b1c0000a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\a3_app_utils">
+      <UniqueIdentifier>{a2fe15e4-fbc8-4170-884f-d51ef0fe0a06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\a3_app_utils\Win32">
+      <UniqueIdentifier>{7c400e6e-cbce-4606-8d69-950c048ce170}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="_src_win\a3_app_utils\a3_app_load.c">
+      <Filter>Source Files\common\a3_app_utils</Filter>
+    </ClCompile>
+    <ClCompile Include="_src_win\a3_app_utils\Win32\a3_app_console.c">
+      <Filter>Source Files\platform\a3_app_utils\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="_src_win\a3_app_utils\Win32\a3_app_window.c">
+      <Filter>Source Files\platform\a3_app_utils\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="_src_win\a3_app_utils\Win32\a3_app_application.c">
+      <Filter>Source Files\platform\a3_app_utils\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="_src_win\a3_app_utils\Win32\_internal\a3_app_pdbrm.c">
+      <Filter>Source Files\platform\a3_app_utils\Win32\_internal</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\animal3D-DemoPlayerApp\a3_app_utils\Win32\a3_app_application.h">
+      <Filter>Header Files\a3_app_utils\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\animal3D-DemoPlayerApp\a3_app_utils\Win32\a3_app_console.h">
+      <Filter>Header Files\a3_app_utils\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\animal3D-DemoPlayerApp\a3_app_utils\Win32\a3_app_window.h">
+      <Filter>Header Files\a3_app_utils\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\animal3D-DemoPlayerApp\a3_app_utils\Win32\a3_app_renderer.h">
+      <Filter>Header Files\a3_app_utils\Win32</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

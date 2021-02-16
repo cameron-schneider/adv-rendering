@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{545f7997-8e6a-4bd8-83e5-689571eac3a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\a3math">
+      <UniqueIdentifier>{1bb69c26-bf52-4d31-b165-367886875ca8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\animal3D-A3DM">
+      <UniqueIdentifier>{bca555d8-1454-4358-b077-9cb1e11b2b6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\animal3D-A3DM\a3math">
+      <UniqueIdentifier>{8f34c5d0-cd46-454c-a564-3e48fb3f177d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\animal3D-A3DM\a3math\_inl">
+      <UniqueIdentifier>{3d83b586-df73-4867-b04b-70f7ec0ecd2f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\animal3D-A3DM\animal3D-A3DM.h">
+      <Filter>Header Files\animal3D-A3DM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D-A3DM\a3math\a3dualquaternion.h">
+      <Filter>Header Files\animal3D-A3DM\a3math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D-A3DM\a3math\a3interpolation.h">
+      <Filter>Header Files\animal3D-A3DM\a3math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D-A3DM\a3math\a3matrix.h">
+      <Filter>Header Files\animal3D-A3DM\a3math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D-A3DM\a3math\a3quaternion.h">
+      <Filter>Header Files\animal3D-A3DM\a3math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D-A3DM\a3math\a3random.h">
+      <Filter>Header Files\animal3D-A3DM\a3math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D-A3DM\a3math\a3sqrt.h">
+      <Filter>Header Files\animal3D-A3DM\a3math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D-A3DM\a3math\a3stats.h">
+      <Filter>Header Files\animal3D-A3DM\a3math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D-A3DM\a3math\a3trig.h">
+      <Filter>Header Files\animal3D-A3DM\a3math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D-A3DM\a3math\a3vector.h">
+      <Filter>Header Files\animal3D-A3DM\a3math</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\animal3D-A3DM\a3math\_inl\a3dualquaternion_impl.inl">
+      <Filter>Header Files\animal3D-A3DM\a3math\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D-A3DM\a3math\_inl\a3interpolation_impl.inl">
+      <Filter>Header Files\animal3D-A3DM\a3math\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D-A3DM\a3math\_inl\a3matrix2_impl.inl">
+      <Filter>Header Files\animal3D-A3DM\a3math\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D-A3DM\a3math\_inl\a3matrix3_impl.inl">
+      <Filter>Header Files\animal3D-A3DM\a3math\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D-A3DM\a3math\_inl\a3matrix4_impl.inl">
+      <Filter>Header Files\animal3D-A3DM\a3math\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D-A3DM\a3math\_inl\a3quaternion_impl.inl">
+      <Filter>Header Files\animal3D-A3DM\a3math\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D-A3DM\a3math\_inl\a3random_impl.inl">
+      <Filter>Header Files\animal3D-A3DM\a3math\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D-A3DM\a3math\_inl\a3sqrt_impl.inl">
+      <Filter>Header Files\animal3D-A3DM\a3math\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D-A3DM\a3math\_inl\a3stats_impl.inl">
+      <Filter>Header Files\animal3D-A3DM\a3math\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D-A3DM\a3math\_inl\a3trig_impl.inl">
+      <Filter>Header Files\animal3D-A3DM\a3math\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D-A3DM\a3math\_inl\a3vector2_impl.inl">
+      <Filter>Header Files\animal3D-A3DM\a3math\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D-A3DM\a3math\_inl\a3vector3_impl.inl">
+      <Filter>Header Files\animal3D-A3DM\a3math\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D-A3DM\a3math\_inl\a3vector4_impl.inl">
+      <Filter>Header Files\animal3D-A3DM\a3math\_inl</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\animal3D-A3DM\animal3D-A3DM.c">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="..\..\..\source\animal3D-A3DM\a3math\a3sqrt_a.asm">
+      <Filter>Source Files\common\a3math</Filter>
+    </MASM>
+  </ItemGroup>
+</Project>

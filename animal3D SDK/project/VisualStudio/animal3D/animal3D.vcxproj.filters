@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{72b2ae75-2628-4e18-ae99-4b4ee8d69cdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\animal3D">
+      <UniqueIdentifier>{d02910c1-34e5-4e64-aaf0-651e6f9a0137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\animal3D\a3utility">
+      <UniqueIdentifier>{eaa7e12e-7dbc-4233-81d8-d7bd0a47ff5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\animal3D\a3input">
+      <UniqueIdentifier>{3eb69ebc-989e-4bc7-9aa4-0fa24ab51012}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\a3utility">
+      <UniqueIdentifier>{cf7bd201-abb6-4bf5-984b-35e3cbb394c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\a3input">
+      <UniqueIdentifier>{86f7b69a-c25c-42bc-91c5-86edf3cc6de0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\animal3D\a3input\_inl">
+      <UniqueIdentifier>{3c9f0be0-451a-4d15-9ffc-4c6ed018c117}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\animal3D\a3">
+      <UniqueIdentifier>{995211b1-36d7-4401-8c01-93ba3419250b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\animal3D\a3utility\_inl">
+      <UniqueIdentifier>{c5d6f2b4-96a9-4c95-bda7-c315000cb1e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\animal3D\a3geometry">
+      <UniqueIdentifier>{a7ca2e7d-aee2-4288-9c2c-3982478528e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\animal3D\a3geometry\_inl">
+      <UniqueIdentifier>{81380221-8788-43e2-bcb1-77ead008754e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\a3geometry">
+      <UniqueIdentifier>{6fdca37b-231f-472c-b7b3-05821e2321ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common\a3geometry\_internal">
+      <UniqueIdentifier>{abd71996-1afa-4a29-9779-a181aaa498a3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\animal3D\animal3D.c">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\animal3D\a3input\a3_XboxControllerInput.c">
+      <Filter>Source Files\common\a3input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\animal3D\a3utility\a3_Thread.c">
+      <Filter>Source Files\common\a3utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\animal3D\a3utility\a3_Timer.c">
+      <Filter>Source Files\common\a3utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\animal3D\a3utility\a3_Stream.c">
+      <Filter>Source Files\common\a3utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\animal3D\a3geometry\a3_GeometryData.c">
+      <Filter>Source Files\common\a3geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\animal3D\a3geometry\a3_ModelLoader_WavefrontOBJ.c">
+      <Filter>Source Files\common\a3geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\animal3D\a3geometry\a3_ProceduralGeometry.c">
+      <Filter>Source Files\common\a3geometry</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\animal3D\animal3D.h">
+      <Filter>Header Files\animal3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3input\a3_InputState.h">
+      <Filter>Header Files\animal3D\a3input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3input\a3_KeyboardInput.h">
+      <Filter>Header Files\animal3D\a3input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3input\a3_MouseInput.h">
+      <Filter>Header Files\animal3D\a3input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3input\a3_XboxControllerInput.h">
+      <Filter>Header Files\animal3D\a3input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3utility\a3_Thread.h">
+      <Filter>Header Files\animal3D\a3utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3utility\a3_Timer.h">
+      <Filter>Header Files\animal3D\a3utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3utility\a3_Stream.h">
+      <Filter>Header Files\animal3D\a3utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3\a3config.h">
+      <Filter>Header Files\animal3D\a3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3\a3macros.h">
+      <Filter>Header Files\animal3D\a3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3\a3types_integer.h">
+      <Filter>Header Files\animal3D\a3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3\a3types_real.h">
+      <Filter>Header Files\animal3D\a3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3geometry\a3_GeometryData.h">
+      <Filter>Header Files\animal3D\a3geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3geometry\a3_ModelLoader_WavefrontOBJ.h">
+      <Filter>Header Files\animal3D\a3geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\animal3D\a3geometry\a3_ProceduralGeometry.h">
+      <Filter>Header Files\animal3D\a3geometry</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\include\animal3D\a3input\_inl\a3_KeyboardInput.inl">
+      <Filter>Header Files\animal3D\a3input\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D\a3input\_inl\a3_MouseInput.inl">
+      <Filter>Header Files\animal3D\a3input\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D\a3input\_inl\a3_XboxControllerInput.inl">
+      <Filter>Header Files\animal3D\a3input\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D\a3utility\_inl\a3_Thread.inl">
+      <Filter>Header Files\animal3D\a3utility\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D\a3utility\_inl\a3_Timer.inl">
+      <Filter>Header Files\animal3D\a3utility\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D\a3geometry\_inl\a3_GeometryData.inl">
+      <Filter>Header Files\animal3D\a3geometry\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D\a3geometry\_inl\a3_ModelLoader_WavefrontOBJ.inl">
+      <Filter>Header Files\animal3D\a3geometry\_inl</Filter>
+    </None>
+    <None Include="..\..\..\include\animal3D\a3geometry\_inl\a3_ProceduralGeometry.inl">
+      <Filter>Header Files\animal3D\a3geometry\_inl</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Axes.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Box.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Capsule.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Circle.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Cone.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Cylinder.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Diamond.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Octahedron.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Plane.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Pyramid.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Semisphere.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Sphere.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Torus.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+    <None Include="..\..\..\source\animal3D\a3geometry\_internal\a3_ProceduralGeometry_Triangle.inl">
+      <Filter>Source Files\common\a3geometry\_internal</Filter>
+    </None>
+  </ItemGroup>
+</Project>
