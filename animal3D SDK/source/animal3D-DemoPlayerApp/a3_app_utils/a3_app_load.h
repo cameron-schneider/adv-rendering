@@ -77,6 +77,7 @@ typedef struct tagA3_DEMODESCRIPTOR
 	a3byte lib[A3RECORDSTRSZ];
 	a3byte callbackHook[A3NUMCALLBACKS][A3RECORDSTRSZ];
 	a3byte callbackName[A3NUMCALLBACKS][A3RECORDSTRSZ];
+	a3byte renderAPIName[A3RECORDSTRSZ];
 	a3ui32 numCallbacks;
 } a3_DemoDescriptor;
 

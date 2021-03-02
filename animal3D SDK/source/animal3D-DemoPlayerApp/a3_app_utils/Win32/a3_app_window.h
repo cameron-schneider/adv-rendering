@@ -77,6 +77,9 @@ typedef struct tagA3_WINDOWINTERFACE
 	a3_WindowMenuHandle windowMenuHandle, fileMenuHandle;
 	a3_MouseTracker mouseTracker;
 
+	// window class
+	a3_WindowClass* wndClass;
+
 	// shared
 	a3_DemoWindowInterface demo[1];
 } a3_WindowInterface;

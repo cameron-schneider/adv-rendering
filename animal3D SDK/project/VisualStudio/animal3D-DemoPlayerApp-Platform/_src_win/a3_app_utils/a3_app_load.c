@@ -200,6 +200,9 @@ a3ret a3appLoadDemoInfo(a3_DemoDescriptor **records_out, const a3byte *filePath,
 							// scan for library file
 							linePtr = a3scan(tmp.lib, linePtr, '[', ']');
 
+							// scan for rendering API choice
+							linePtr = a3scan(tmp.renderAPIName, linePtr, '[', ']');
+
 							// scan for callback count
 							sscanf(linePtr, "%d", &tmp.numCallbacks);
 						
