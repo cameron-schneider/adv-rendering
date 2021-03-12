@@ -111,6 +111,57 @@ extern "C"
 	};
 
 
+
+	/*
+		A procedural shape can be broken into primitives. A cube is just 6 planes on offsets with shared vertices and edges.
+		
+		One shape can be described using a set of "descriptor flags" and properties that are specific to the dimensions and creation of each shape.
+		Examples of these properties:
+
+			1. Subdivisions
+			2. # of faces
+			3. Radius/height
+			4. Length/Width/Height
+
+		For a GPU-dependent procedural pipeline, we can have the CPU set up properties and flags, then send properties and flags to compute shaders.
+		These compute shaders will utilize the following structures:
+
+			1. Primitive structure generation (planes & circles for now) separated into 2 shaders
+			2. We don't a ton of memory by using multiple VBO structures, so we can use one per shape-type being generated.
+
+				Our "planes" shader could generate "x" number of planes, so it stands that we could generate "x" number of cubes with identical properties.
+				This means we can technically fill, store, and empty one "planes" buffer for all these cubes.
+					There could be a way to organize uniform buffers that allow up to 4 sets of properties for up to 4 different cubes at once.
+
+				If we want 3 cubes, 2 cylinders, and 1 cone, we would dipatch the "planes" command to generate 3 cubes out of planes, all using a "planes" VBO.
+				The cylinders and cone would use "circles" shader. We would have to request the 2 cylinders (using a "circles" VBO), then request the cone (also using the "circles" VBO).
+
+		Again, the CPU is simply responsible for determining generation algorithms, setting up properties, and allocating the VBO space needed based on the shapes requested.
+		It will then send these requests out through the corresponding shaders.
+
+	
+		Program Flow:
+
+		User requests 2 cubes. (we will just generate overlapping unit cubes for now)
+		CPU generates properties for unit cube (length/width/height, subdivisions in all dimensions)
+			CPU also generates the necessary data for each plane within the cube, and allocates the "planes" VBO for the cubes.
+		CPU dispatches the "planes" compute shader with the above data
+
+		GPU now generates the cubes using the given data and the "planes" VBO.
+
+		Once GPU is done, CPU now has the data for all of the cubes, and can store it, then clear/release "planes" VBO.	
+	
+		ISSUES:
+			-If VBO is allocated based on number of shapes requested, you can request a ton of shapes and get a MASSIVE VBO
+				Would be fixed if the compute shader had direct control over GPU memory to clear/move VBO data once it finishes each cube.
+			-Constrained by each "shape"
+				Generating a cylinder is totally different from a cone, even though they both use circles. We'd need separate compute shaders for these to avoid doing decision logic in compute shaders.
+
+	
+	*/
+
+
+
 //-----------------------------------------------------------------------------
 	// A3: Create descriptors.
 	// NOTE: for all shapes, entering invalid params will not result in the 
