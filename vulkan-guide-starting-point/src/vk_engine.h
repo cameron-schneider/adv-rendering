@@ -53,7 +53,15 @@ public:
 	VkCommandPool commandPool;
 	VkCommandBuffer mainCommandBuffer;
 
+	VkRenderPass renderPass;
+	std::vector<VkFramebuffer> frameBuffers;
+
+	VkSemaphore currentSem, renderSem;
+	VkFence renderFence;
+
 private:
+
+	static const uint64_t timer = 1000000000;
 
 	/// <summary>
 	/// Initialize VK instance, SDL surface, and device/physical device
@@ -70,4 +78,10 @@ private:
 	void init_commands();
 
 	void CleanupSwapchain();
+
+	void init_default_renderpass();
+
+	void init_framebuffers();
+
+	void init_sync_structures();
 };

@@ -52,6 +52,12 @@ void VulkanEngine::init()
 
 	init_commands();
 
+	init_default_renderpass();
+
+	init_framebuffers();
+
+	init_sync_structures();
+
 	//everything went fine
 	isInitialized = true;
 }
@@ -62,6 +68,7 @@ void VulkanEngine::cleanup()
 		vkDestroyCommandPool(device, commandPool, nullptr);
 
 		CleanupSwapchain();
+
 
 		vkDestroyDevice(device, nullptr);
 		vkDestroySurfaceKHR(instance, surface, nullptr);
@@ -74,7 +81,81 @@ void VulkanEngine::cleanup()
 
 void VulkanEngine::draw()
 {
-	//nothing yet
+	//Waits for render fence, times out after 1 second
+	VK_CHECK(vkWaitForFences(device, 1, &renderFence, true, timer));
+	VK_CHECK(vkResetFences(device, 1, &renderFence));
+
+	uint32_t swapchainImgIndex;
+	VK_CHECK(vkAcquireNextImageKHR(device, swapchain, timer, currentSem, nullptr, &swapchainImgIndex));
+
+	VK_CHECK(vkResetCommandBuffer(mainCommandBuffer, 0));
+
+	VkCommandBuffer cmd = mainCommandBuffer;
+
+	VkCommandBufferBeginInfo cmdBegin = {};
+	cmdBegin.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+	cmdBegin.pNext = nullptr;
+	cmdBegin.pInheritanceInfo = nullptr;
+	//Only used once
+	cmdBegin.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+
+	VK_CHECK(vkBeginCommandBuffer(cmd, &cmdBegin));
+
+	//Time for some fun
+	VkClearValue clearVal;
+	float flash = abs(sin(frameNumber / 120.0f));
+	clearVal.color = { { 0.0f, 0.0f, flash, 1.0f } };
+
+	//Starting render pass
+	VkRenderPassBeginInfo rpInfo = {};
+	rpInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+	rpInfo.pNext = nullptr;
+	rpInfo.renderPass = renderPass;
+
+	rpInfo.renderArea.offset.x = 0;
+	rpInfo.renderArea.offset.y = 0;
+	rpInfo.renderArea.extent = windowExtent;
+	rpInfo.framebuffer = frameBuffers[swapchainImgIndex];
+
+	rpInfo.clearValueCount = 1;
+	rpInfo.pClearValues = &clearVal;
+
+	vkCmdBeginRenderPass(cmd, &rpInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+	vkCmdEndRenderPass(cmd);
+	VK_CHECK(vkEndCommandBuffer(cmd));
+
+	VkSubmitInfo sub = {};
+	sub.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+	sub.pNext = nullptr;
+
+	VkPipelineStageFlags wait = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+
+	sub.pWaitDstStageMask = &wait;
+
+	sub.waitSemaphoreCount = 1;
+	sub.pWaitSemaphores = &currentSem;
+
+	sub.signalSemaphoreCount = 1;
+	sub.pSignalSemaphores = &renderSem;
+
+	sub.commandBufferCount = 1;
+	sub.pCommandBuffers = &cmd;
+
+	VK_CHECK(vkQueueSubmit(graphicsQueue, 1, &sub, renderFence));
+
+	VkPresentInfoKHR presentInfo = {};
+	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+	presentInfo.pNext = nullptr;
+
+	presentInfo.pSwapchains = &swapchain;
+	presentInfo.swapchainCount = 1;
+
+	presentInfo.pImageIndices = &swapchainImgIndex;
+
+	VK_CHECK(vkQueuePresentKHR(graphicsQueue, &presentInfo));
+
+	++frameNumber;
 }
 
 void VulkanEngine::run()
@@ -184,10 +265,99 @@ void VulkanEngine::CleanupSwapchain()
 {
 	vkDestroySwapchainKHR(device, swapchain, nullptr);
 
+	vkDestroyRenderPass(device, renderPass, nullptr);
+	/*
+	for (int i = 0; i < frameBuffers.size(); i++)
+	{
+		vkDestroyFramebuffer(device, frameBuffers[i], nullptr);
+	}
+	*/
 	for (int i = 0; i < swapchainImageViews.size(); i++)
 	{
+		vkDestroyFramebuffer(device, frameBuffers[i], nullptr);
 		vkDestroyImageView(device, swapchainImageViews[i], nullptr);
 	}
+
+}
+
+void VulkanEngine::init_default_renderpass()
+{
+	VkAttachmentDescription color_att = {};
+	color_att.format = swapchainFormat;
+	color_att.samples = VK_SAMPLE_COUNT_1_BIT;
+	color_att.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+	color_att.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+	color_att.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+	color_att.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+
+	//Can be any layout
+	color_att.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+	//Allows image to be displayed on screen
+	color_att.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+
+	VkAttachmentReference color_att_ref = {};
+	color_att_ref.attachment = 0;
+	color_att_ref.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+	VkSubpassDescription subpass = {};
+	subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+	subpass.colorAttachmentCount = 1;
+	subpass.pColorAttachments = &color_att_ref;
+
+	VkRenderPassCreateInfo pass_info = {};
+	pass_info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+
+	pass_info.attachmentCount = 1;
+	pass_info.pAttachments = &color_att;
+
+	pass_info.subpassCount = 1;
+	pass_info.pSubpasses = &subpass;
+
+	VK_CHECK(vkCreateRenderPass(device, &pass_info, nullptr, &renderPass));
+
+}
+
+void VulkanEngine::init_framebuffers()
+{
+	VkFramebufferCreateInfo fbInfo = {};
+	fbInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+	fbInfo.pNext = nullptr;
+
+	fbInfo.renderPass = renderPass;
+	fbInfo.attachmentCount = 1;
+
+	fbInfo.width = windowExtent.width;
+	fbInfo.height = windowExtent.height;
+	fbInfo.layers = 1;
+
+	const uint32_t swapchainImgCount = swapchainImages.size();
+	frameBuffers = std::vector<VkFramebuffer>(swapchainImgCount);
+
+	for (int i = 0; i < swapchainImgCount; i++)
+	{
+		fbInfo.pAttachments = &swapchainImageViews[i];
+		VK_CHECK(vkCreateFramebuffer(device, &fbInfo, nullptr, &frameBuffers[i]));
+	}
+}
+
+void VulkanEngine::init_sync_structures()
+{
+	VkFenceCreateInfo fenceInfo = {};
+	fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+	fenceInfo.pNext = nullptr;
+
+	fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
+
+	VK_CHECK(vkCreateFence(device, &fenceInfo, nullptr, &renderFence));
+
+	//Creating semaphores
+	VkSemaphoreCreateInfo semInfo = {};
+	semInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
+	semInfo.pNext = nullptr;
+	semInfo.flags = 0;
+
+	VK_CHECK(vkCreateSemaphore(device, &semInfo, nullptr, &currentSem));
+	VK_CHECK(vkCreateSemaphore(device, &semInfo, nullptr, &renderSem));
 
 }
 
