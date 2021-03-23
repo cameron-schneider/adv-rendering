@@ -50,6 +50,7 @@ void VulkanEngine::init()
 	//create swapchain
 	init_swapchain();
 
+	init_commands();
 
 	//everything went fine
 	isInitialized = true;
@@ -58,6 +59,8 @@ void VulkanEngine::cleanup()
 {	
 	if (isInitialized) 
 	{
+		vkDestroyCommandPool(device, commandPool, nullptr);
+
 		CleanupSwapchain();
 
 		vkDestroyDevice(device, nullptr);
@@ -124,6 +127,9 @@ uint32_t VulkanEngine::init_vk_context()
 	device = dev.device;
 	renderGPU = physDev.physical_device;
 
+	graphicsQueue = dev.get_queue(vkb::QueueType::graphics).value();
+	graphicsQueueFam = dev.get_queue_index(vkb::QueueType::graphics).value();
+
 	return 1;
 }
 
@@ -147,6 +153,33 @@ uint32_t VulkanEngine::init_swapchain()
 	return 1;
 }
 
+void VulkanEngine::init_commands()
+{
+	//Creating command pool for submitted graphics commands
+	//VkCommandPoolCreateInfo commandPoolInfo = {};
+	VkCommandPoolCreateInfo commandPoolInfo = vkinit::command_pool_create_info(graphicsQueueFam, VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT);
+	//commandPoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+	//commandPoolInfo.pNext = nullptr;
+
+	//Command pool can submit graphics commands
+	//commandPoolInfo.queueFamilyIndex = graphicsQueueFam;
+	//Need to be able to reset command pool as well
+	//commandPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+
+	VK_CHECK(vkCreateCommandPool(device, &commandPoolInfo, nullptr, &commandPool));
+
+	//VkCommandBufferAllocateInfo cmdAlloInfo = {};
+	VkCommandBufferAllocateInfo cmdAlloInfo = vkinit::allocate_command_buffer_info(commandPool, 1);
+	//cmdAlloInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+	//cmdAlloInfo.pNext = nullptr;
+
+	//cmdAlloInfo.commandPool = commandPool;
+	//cmdAlloInfo.commandBufferCount = 1;
+	//cmdAlloInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+
+	VK_CHECK(vkAllocateCommandBuffers(device, &cmdAlloInfo, &mainCommandBuffer));
+}
+
 void VulkanEngine::CleanupSwapchain()
 {
 	vkDestroySwapchainKHR(device, swapchain, nullptr);
@@ -155,6 +188,7 @@ void VulkanEngine::CleanupSwapchain()
 	{
 		vkDestroyImageView(device, swapchainImageViews[i], nullptr);
 	}
+
 }
 
 

@@ -4,6 +4,7 @@
 #pragma once
 
 #include <vk_types.h>
+#include <vector>
 
 class VulkanEngine {
 public:
@@ -43,8 +44,14 @@ public:
 	/// </summary>
 	VkSwapchainKHR swapchain;
 	VkFormat swapchainFormat;
-	vector<VkImage> swapchainImages;
-	vector<VkImageView> swapchainImageViews;
+	std::vector<VkImage> swapchainImages;
+	std::vector<VkImageView> swapchainImageViews;
+
+	VkQueue graphicsQueue;
+	uint32_t graphicsQueueFam;
+
+	VkCommandPool commandPool;
+	VkCommandBuffer mainCommandBuffer;
 
 private:
 
@@ -59,6 +66,8 @@ private:
 	/// </summary>
 	/// <returns> returns 1 if success, 0 if error. Will also report error. </returns>
 	uint32_t init_swapchain();
+
+	void init_commands();
 
 	void CleanupSwapchain();
 };
