@@ -22,3 +22,27 @@ VkCommandBufferAllocateInfo vkinit::allocate_command_buffer_info(VkCommandPool p
 	info.level = level;
 	return info;
 }
+
+VkPipelineShaderStageCreateInfo vkinit::pipeline_shader_stage_create_info(VkShaderStageFlagBits stage, VkShaderModule shaderMod)
+{
+	VkPipelineShaderStageCreateInfo info{};
+	info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+	info.pNext = nullptr;
+
+	info.stage = stage;
+	info.module = shaderMod;
+	info.pName = "main";
+	return info;
+}
+
+VkPipelineVertexInputStateCreateInfo vkinit::vertex_input_state_create_info()
+{
+	VkPipelineVertexInputStateCreateInfo info{};
+	info.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+	info.pNext = nullptr;
+
+	info.vertexBindingDescriptionCount = 0;
+	info.vertexAttributeDescriptionCount = 0;
+
+	return info;
+}
