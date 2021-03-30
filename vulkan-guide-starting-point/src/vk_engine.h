@@ -21,6 +21,8 @@ public:
 	//run main loop
 	void run();
 
+	bool load_shader_mod(const char* filePath, VkShaderModule* outShaderMod);
+
 public:
 	bool isInitialized{ false };
 	int frameNumber{ 0 };
@@ -84,4 +86,6 @@ private:
 	void init_framebuffers();
 
 	void init_sync_structures();
+
+	void init_pipelines();
 };
