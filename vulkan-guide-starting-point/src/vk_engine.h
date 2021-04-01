@@ -5,7 +5,25 @@
 
 #include <vk_types.h>
 #include <vector>
+#include <functional>
+#include <deque>
 
+
+struct DelQueue
+{
+	std::deque<std::function<void()>> deletors;
+
+	void push_funct(std::function<void()>&& function) { deletors.push_back(function); }
+
+	void flush()
+	{
+		for (auto iter = deletors.rbegin(); iter != deletors.rend(); iter++)
+		{
+			(*iter)();
+		}
+		deletors.clear();
+	}
+};
 class VulkanEngine {
 public:
 
@@ -43,6 +61,7 @@ public:
 	VkPipelineLayout trianglePipelineLayout;
 
 	VkPipeline trianglePipeline;
+	VkPipeline redTriPipeline;
 
 
 	/// <summary>
@@ -65,9 +84,12 @@ public:
 	VkSemaphore currentSem, renderSem;
 	VkFence renderFence;
 
+	DelQueue mainDeletionQueue;
 private:
 
 	static const uint64_t timer = 1000000000;
+
+	int selectedShader{ 0 };
 
 	/// <summary>
 	/// Initialize VK instance, SDL surface, and device/physical device
