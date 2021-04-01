@@ -40,6 +40,10 @@ public:
 	VkDevice device;							// Vulkan device for command handling
 	VkSurfaceKHR surface;						// Window surface
 
+	VkPipelineLayout trianglePipelineLayout;
+
+	VkPipeline trianglePipeline;
+
 
 	/// <summary>
 	/// Swapchain variables
