@@ -7,7 +7,7 @@
 #include <vector>
 #include <functional>
 #include <deque>
-
+#include <vk_mesh.h>
 
 struct DelQueue
 {
@@ -85,6 +85,12 @@ public:
 	VkFence renderFence;
 
 	DelQueue mainDeletionQueue;
+
+	VmaAllocator allocator;
+
+	VkPipeline meshPipeline;
+	Mesh triangleMesh;
+
 private:
 
 	static const uint64_t timer = 1000000000;
@@ -114,6 +120,10 @@ private:
 	void init_sync_structures();
 
 	void init_pipelines();
+
+	void load_meshes();
+
+	void upload_mesh(Mesh& mesh);
 };
 
 class PipelineBuilder

@@ -16,6 +16,10 @@ using namespace std;
 using namespace vkb;
 
 
+#define VMA_IMPLEMENTATION
+#include "vk_mem_alloc.h"
+
+
 #define VK_CHECK(x)                                             \
 	do                                                              \
 	{                                                               \
@@ -26,7 +30,6 @@ using namespace vkb;
 			abort();														\
 		}																\
 	} while (0)
-
 
 void VulkanEngine::init()
 {
@@ -60,6 +63,8 @@ void VulkanEngine::init()
 	init_sync_structures();
 
 	init_pipelines();
+
+	load_meshes();
 
 	//everything went fine
 	isInitialized = true;
@@ -176,7 +181,7 @@ void VulkanEngine::draw()
 
 	VK_CHECK(vkQueuePresentKHR(graphicsQueue, &presentInfo));
 
-	++frameNumber;
+	frameNumber++;
 }
 
 void VulkanEngine::run()
@@ -273,6 +278,12 @@ uint32_t VulkanEngine::init_vk_context()
 
 	graphicsQueue = dev.get_queue(vkb::QueueType::graphics).value();
 	graphicsQueueFam = dev.get_queue_index(vkb::QueueType::graphics).value();
+
+	VmaAllocatorCreateInfo allocInfo{};
+	allocInfo.physicalDevice = renderGPU;
+	allocInfo.device = device;
+	allocInfo.instance = instance;
+	vmaCreateAllocator(&allocInfo, &allocator);
 
 	return 1;
 }
@@ -521,6 +532,43 @@ void VulkanEngine::init_pipelines()
 			vkDestroyPipeline(device, trianglePipeline, nullptr);
 			vkDestroyPipelineLayout(device, trianglePipelineLayout, nullptr);
 		});
+}
+
+void VulkanEngine::load_meshes()
+{
+	triangleMesh.vertices[0].position = { 1.f, 1.f, 0.0f };
+	triangleMesh.vertices[1].position = { -1.f, 1.f, 0.0f };
+	triangleMesh.vertices[2].position = { 0.f, 1.f, 0.0f };
+
+	triangleMesh.vertices[0].color = { 0.f, 1.f, 0.0f };
+	triangleMesh.vertices[1].color = { 0.f, 1.f, 0.0f };
+	triangleMesh.vertices[2].color = { 0.f, 1.f, 0.0f };
+
+	upload_mesh(triangleMesh);
+}
+
+void VulkanEngine::upload_mesh(Mesh& mesh)
+{
+	VkBufferCreateInfo bufferInfo{};
+	bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+	bufferInfo.pNext = nullptr;
+	bufferInfo.size = mesh.vertices.size() * sizeof(Vertex);
+	bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+
+	VmaAllocationCreateInfo vmaAlloc = {};
+	vmaAlloc.usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
+
+	VK_CHECK(vmaCreateBuffer(allocator, &bufferInfo, &vmaAlloc,
+		&mesh.vertBuffer.buffer,
+		&mesh.vertBuffer.alloc,
+		nullptr));
+
+	mainDeletionQueue.push_funct([=]() {vmaDestroyBuffer(allocator, mesh.vertBuffer.buffer, mesh.vertBuffer.alloc); });
+
+	void* data;
+	vmaMapMemory(allocator, mesh.vertBuffer.alloc, &data);
+	memcpy(data, mesh.vertices.data(), mesh.vertices.size() * sizeof(Vertex));
+	vmaUnmapMemory(allocator, mesh.vertBuffer.alloc);
 }
 
 VkPipeline PipelineBuilder::build_pipeline(VkDevice device, VkRenderPass pass)
