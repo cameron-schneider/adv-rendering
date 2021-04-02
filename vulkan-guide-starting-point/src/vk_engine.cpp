@@ -16,10 +16,6 @@ using namespace std;
 using namespace vkb;
 
 
-#define VMA_IMPLEMENTATION
-#include "vk_mem_alloc.h"
-
-
 #define VK_CHECK(x)                                             \
 	do                                                              \
 	{                                                               \
@@ -279,7 +275,7 @@ uint32_t VulkanEngine::init_vk_context()
 	graphicsQueue = dev.get_queue(vkb::QueueType::graphics).value();
 	graphicsQueueFam = dev.get_queue_index(vkb::QueueType::graphics).value();
 
-	VmaAllocatorCreateInfo allocInfo{};
+	VmaAllocatorCreateInfo allocInfo = {};
 	allocInfo.physicalDevice = renderGPU;
 	allocInfo.device = device;
 	allocInfo.instance = instance;
@@ -536,6 +532,8 @@ void VulkanEngine::init_pipelines()
 
 void VulkanEngine::load_meshes()
 {
+	triangleMesh.vertices.resize(3);
+
 	triangleMesh.vertices[0].position = { 1.f, 1.f, 0.0f };
 	triangleMesh.vertices[1].position = { -1.f, 1.f, 0.0f };
 	triangleMesh.vertices[2].position = { 0.f, 1.f, 0.0f };
@@ -549,9 +547,9 @@ void VulkanEngine::load_meshes()
 
 void VulkanEngine::upload_mesh(Mesh& mesh)
 {
-	VkBufferCreateInfo bufferInfo{};
+	VkBufferCreateInfo bufferInfo = {};
 	bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-	bufferInfo.pNext = nullptr;
+	//bufferInfo.pNext = nullptr;
 	bufferInfo.size = mesh.vertices.size() * sizeof(Vertex);
 	bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
 

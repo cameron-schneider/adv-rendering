@@ -24,6 +24,7 @@ struct DelQueue
 		deletors.clear();
 	}
 };
+
 class VulkanEngine {
 public:
 
