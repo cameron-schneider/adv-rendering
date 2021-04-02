@@ -28,4 +28,6 @@ struct Mesh
 {
 	std::vector<Vertex> vertices;
 	AllocBuffer vertBuffer;
+
+	bool load_from_obj(const char* fileName);
 };

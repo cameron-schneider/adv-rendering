@@ -12,6 +12,8 @@
 #include <iostream>
 #include <fstream>
 
+#include <glm/gtx/transform.hpp>
+
 using namespace std;
 using namespace vkb;
 
@@ -72,9 +74,10 @@ void VulkanEngine::cleanup()
 		vkWaitForFences(device, 1, &renderFence, true, timer);
 
 		mainDeletionQueue.flush();
+		vmaDestroyAllocator(allocator);
 		vkDestroySurfaceKHR(instance, surface, nullptr);
 		vkDestroyDevice(device, nullptr);
-		vkDestroyInstance(instance, nullptr);
+		vkDestroyInstance(instance, nullptr);	//Some child objects of instance not destroyed before this is called
 		SDL_DestroyWindow(window);
 		/*
 		vkDestroyCommandPool(device, commandPool, nullptr);
@@ -94,7 +97,7 @@ void VulkanEngine::cleanup()
 void VulkanEngine::draw()
 {
 	//Waits for render fence, times out after 1 second
-	VK_CHECK(vkWaitForFences(device, 1, &renderFence, true, timer));
+	VK_CHECK(vkWaitForFences(device, 1, &renderFence, true, 1000000000));
 	VK_CHECK(vkResetFences(device, 1, &renderFence));
 
 	uint32_t swapchainImgIndex;
@@ -149,9 +152,25 @@ void VulkanEngine::draw()
 	vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, meshPipeline);
 
 	VkDeviceSize offset = 0;
-	vkCmdBindVertexBuffers(cmd, 0, 1, &triangleMesh.vertBuffer.buffer, &offset);
+	vkCmdBindVertexBuffers(cmd, 0, 1, &monkeyMesh.vertBuffer.buffer, &offset);
 
-	vkCmdDraw(cmd, triangleMesh.vertices.size(), 1, 0, 0);
+	//Pushin Constants
+	glm::vec3 camPos = { 0.f,0.f,-2.f };
+	glm::mat4 view = glm::translate(glm::mat4(1.f), camPos);
+	//Cam projection
+	glm::mat4 projection = glm::perspective(glm::radians(70.f), 1700.f / 900.f, 0.1f, 200.0f);
+	projection[1][1] *= -1;
+	//model rotation
+	glm::mat4 model = glm::rotate(glm::mat4{ 1.0f }, glm::radians(frameNumber * 0.4f), glm::vec3(0, 1, 0));
+
+	glm::mat4 meshMatrix = projection * view * model;
+
+	MeshPushConsts constants;
+	constants.renderMatrix = meshMatrix;
+
+	vkCmdPushConstants(cmd, meshPipelineLayout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(MeshPushConsts), &constants);
+
+	vkCmdDraw(cmd, monkeyMesh.vertices.size(), 1, 0, 0);
 
 	vkCmdEndRenderPass(cmd);
 	VK_CHECK(vkEndCommandBuffer(cmd));
@@ -173,7 +192,7 @@ void VulkanEngine::draw()
 	sub.commandBufferCount = 1;
 	sub.pCommandBuffers = &cmd;
 
-	VK_CHECK(vkQueueSubmit(graphicsQueue, 1, &sub, renderFence));
+	VK_CHECK(vkQueueSubmit(graphicsQueue, 1, &sub, renderFence));	//Semaphore issue prints here (not on first runthrough though)
 
 	VkPresentInfoKHR presentInfo = {};
 	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
@@ -181,6 +200,9 @@ void VulkanEngine::draw()
 
 	presentInfo.pSwapchains = &swapchain;
 	presentInfo.swapchainCount = 1;
+
+	presentInfo.pWaitSemaphores = &renderSem;
+	presentInfo.waitSemaphoreCount = 1;
 
 	presentInfo.pImageIndices = &swapchainImgIndex;
 
@@ -476,21 +498,15 @@ void VulkanEngine::init_pipelines()
 	{
 		std::cout << "Error when building the triangle fragment shader module" << std::endl;
 	}
-	else std::cout << "Triangle fragment shader succesfully loaded" << std::endl;
+	else std::cout << "Red triangle fragment shader succesfully loaded" << std::endl;
 
 	VkShaderModule redTriangleVertShader;
 	if (!load_shader_mod("../../shaders/Triangle.vert.spv", &redTriangleVertShader))
 	{
 		std::cout << "Error when building the triangle vertex shader module" << std::endl;
 	}
-	else std::cout << "Triangle vertex shader succesfully loaded" << std::endl;
+	else std::cout << "Red triangle vertex shader succesfully loaded" << std::endl;
 
-	VkShaderModule meshVertShader;
-	if (!load_shader_mod("../../shaders/tri_mesh.vert.spv", &meshVertShader))
-	{
-		std::cout << "Error when building the mesh vertex shader module" << std::endl;
-	}
-	else std::cout << "Mesh vertex shader succesfully loaded" << std::endl;
 
 	VkPipelineLayoutCreateInfo pipeline_layout_info = vkinit::pipeline_layout_create_info();
 
@@ -525,12 +541,12 @@ void VulkanEngine::init_pipelines()
 
 	pipeBuild.shaderStages.clear();
 
-	/*pipeBuild.shaderStages.push_back(
+	pipeBuild.shaderStages.push_back(
 		vkinit::pipeline_shader_stage_create_info(VK_SHADER_STAGE_VERTEX_BIT, redTriangleVertShader));
 	pipeBuild.shaderStages.push_back(
-		vkinit::pipeline_shader_stage_create_info(VK_SHADER_STAGE_FRAGMENT_BIT, redTriangleFragShader));*/
+		vkinit::pipeline_shader_stage_create_info(VK_SHADER_STAGE_FRAGMENT_BIT, redTriangleFragShader));
 
-	//redTriPipeline = pipeBuild.build_pipeline(device, renderPass);
+	redTriPipeline = pipeBuild.build_pipeline(device, renderPass);
 
 
 	VertexInputDesc vertDesc = Vertex::get_vertex_desc();
@@ -540,41 +556,71 @@ void VulkanEngine::init_pipelines()
 	pipeBuild.vertexInputInfo.pVertexBindingDescriptions = vertDesc.bindings.data();
 	pipeBuild.vertexInputInfo.vertexBindingDescriptionCount = vertDesc.bindings.size();
 
+	pipeBuild.shaderStages.clear();
+
+	VkPipelineLayoutCreateInfo mesh_pipeline_layout_info = vkinit::pipeline_layout_create_info();
+
+	VkPushConstantRange pushConst;
+	pushConst.offset = 0;
+	pushConst.size = sizeof(MeshPushConsts);
+	pushConst.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+
+	mesh_pipeline_layout_info.pPushConstantRanges = &pushConst;
+	mesh_pipeline_layout_info.pushConstantRangeCount = 1;
+
+	VK_CHECK(vkCreatePipelineLayout(device, &mesh_pipeline_layout_info, nullptr, &meshPipelineLayout));
+
+
+	VkShaderModule meshVertShader;
+	if (!load_shader_mod("../../shaders/tri_mesh.vert.spv", &meshVertShader))
+	{
+		std::cout << "Error when building the mesh vertex shader module" << std::endl;
+	}
+	else std::cout << "Mesh vertex shader succesfully loaded" << std::endl;
+
 	pipeBuild.shaderStages.push_back(
 		vkinit::pipeline_shader_stage_create_info(VK_SHADER_STAGE_VERTEX_BIT, meshVertShader));
 	pipeBuild.shaderStages.push_back(
 		vkinit::pipeline_shader_stage_create_info(VK_SHADER_STAGE_FRAGMENT_BIT, triangleFragShader));
+
+	pipeBuild.pipelineLayout = meshPipelineLayout;
 
 	meshPipeline = pipeBuild.build_pipeline(device, renderPass);
 
 	vkDestroyShaderModule(device, meshVertShader, nullptr);
 	vkDestroyShaderModule(device, redTriangleVertShader, nullptr);
 	vkDestroyShaderModule(device, redTriangleFragShader, nullptr);
-	vkDestroyShaderModule(device, triangleVertShader, nullptr);
 	vkDestroyShaderModule(device, triangleFragShader, nullptr);
+	vkDestroyShaderModule(device, triangleVertShader, nullptr);
 	
 	mainDeletionQueue.push_funct([=]()
-		{
-			vkDestroyPipeline(device, redTriPipeline, nullptr);
-			vkDestroyPipeline(device, trianglePipeline, nullptr);
+	{
 			vkDestroyPipeline(device, meshPipeline, nullptr);
+			vkDestroyPipeline(device, trianglePipeline, nullptr);
+			vkDestroyPipeline(device, redTriPipeline, nullptr);
 			vkDestroyPipelineLayout(device, trianglePipelineLayout, nullptr);
-		});
+			vkDestroyPipelineLayout(device, meshPipelineLayout, nullptr);
+	});
+
+	//mainDeletionQueue.push_funct([=]() {vkDestroyPipelineLayout(device, meshPipelineLayout, nullptr); });
 }
 
 void VulkanEngine::load_meshes()
 {
 	triangleMesh.vertices.resize(3);
 
-	triangleMesh.vertices[0].position = { 1.f, 1.f, 0.0f };
-	triangleMesh.vertices[1].position = { -1.f, 1.f, 0.0f };
-	triangleMesh.vertices[2].position = { 0.f, 1.f, 0.0f };
+	triangleMesh.vertices[0].position = { 1.f, 1.f, 0.5f };
+	triangleMesh.vertices[1].position = { -1.f, 1.f, 0.5f };
+	triangleMesh.vertices[2].position = { 0.f, -1.f, 0.5f };	//TRIANGLE WASN'T SHOWING UP BECAUSE IT WAS POINTED DOWN NOT UP, NICE ONE HUBNER
 
 	triangleMesh.vertices[0].color = { 0.f, 1.f, 0.0f };
 	triangleMesh.vertices[1].color = { 0.f, 1.f, 0.0f };
 	triangleMesh.vertices[2].color = { 0.f, 1.f, 0.0f };
 
+	monkeyMesh.load_from_obj("../../assets/suzanne.obj");
+
 	upload_mesh(triangleMesh);
+	upload_mesh(monkeyMesh);
 }
 
 void VulkanEngine::upload_mesh(Mesh& mesh)

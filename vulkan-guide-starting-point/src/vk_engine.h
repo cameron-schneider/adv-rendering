@@ -8,6 +8,13 @@
 #include <functional>
 #include <deque>
 #include <vk_mesh.h>
+#include <glm/glm.hpp>
+
+struct MeshPushConsts
+{
+	glm::vec4 data;
+	glm::mat4 renderMatrix;
+};
 
 struct DelQueue
 {
@@ -91,6 +98,10 @@ public:
 
 	VkPipeline meshPipeline;
 	Mesh triangleMesh;
+
+	VkPipelineLayout meshPipelineLayout;
+
+	Mesh monkeyMesh; //:)
 
 private:
 
