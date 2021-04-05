@@ -13,23 +13,35 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\animal3D-A3DG">
+      <UniqueIdentifier>{affc56d3-cc23-4628-99a0-c5f16ab5fd5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\animal3D-A3DG\a3graphics-Vulkan">
+      <UniqueIdentifier>{c77cbe8b-b7ad-47e7-952f-b80fbc5c6316}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\vulkan-guide-starting-point\src\vk_engine.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_types.h">
+      <Filter>Header Files\animal3D-A3DG\a3graphics-Vulkan</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\vulkan-guide-starting-point\src\vk_initializers.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_engine.h">
+      <Filter>Header Files\animal3D-A3DG\a3graphics-Vulkan</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\vulkan-guide-starting-point\src\vk_types.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_initializers.h">
+      <Filter>Header Files\animal3D-A3DG\a3graphics-Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_mesh.h">
+      <Filter>Header Files\animal3D-A3DG\a3graphics-Vulkan</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\vulkan-guide-starting-point\src\vk_initializers.cpp">
+    <ClCompile Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\vulkan-guide-starting-point\src\vk_engine.cpp">
+    <ClCompile Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_initializers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

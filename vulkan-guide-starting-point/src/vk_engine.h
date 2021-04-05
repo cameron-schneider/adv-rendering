@@ -1,13 +1,20 @@
 ﻿// vulkan_guide.h : Include file for standard system include files,
 // or project specific include files.
 
+#pragma once
 
-//#include <VK/vulkan.h>
-#include "vk_types.h"
+#include <vk_types.h>
 #include <vector>
 #include <functional>
 #include <deque>
+#include <vk_mesh.h>
+#include <glm/glm.hpp>
 
+struct MeshPushConsts
+{
+	glm::vec4 data;
+	glm::mat4 renderMatrix;
+};
 
 struct DelQueue
 {
@@ -86,6 +93,16 @@ public:
 	VkFence renderFence;
 
 	DelQueue mainDeletionQueue;
+
+	VmaAllocator allocator;
+
+	VkPipeline meshPipeline;
+	Mesh triangleMesh;
+
+	VkPipelineLayout meshPipelineLayout;
+
+	Mesh monkeyMesh; //:)
+
 private:
 
 	static const uint64_t timer = 1000000000;
@@ -115,6 +132,10 @@ private:
 	void init_sync_structures();
 
 	void init_pipelines();
+
+	void load_meshes();
+
+	void upload_mesh(Mesh& mesh);
 };
 
 class PipelineBuilder

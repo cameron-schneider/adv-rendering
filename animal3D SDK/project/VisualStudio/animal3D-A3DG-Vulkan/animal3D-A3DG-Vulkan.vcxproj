@@ -19,13 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\vulkan-guide-starting-point\src\vk_engine.h" />
-    <ClInclude Include="..\..\..\..\vulkan-guide-starting-point\src\vk_initializers.h" />
-    <ClInclude Include="..\..\..\..\vulkan-guide-starting-point\src\vk_types.h" />
+    <ClInclude Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_engine.h" />
+    <ClInclude Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_initializers.h" />
+    <ClInclude Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_mesh.h" />
+    <ClInclude Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_types.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\vulkan-guide-starting-point\src\vk_engine.cpp" />
-    <ClCompile Include="..\..\..\..\vulkan-guide-starting-point\src\vk_initializers.cpp" />
+    <ClCompile Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_engine.cpp" />
+    <ClCompile Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_initializers.cpp" />
+    <ClCompile Include="..\..\..\source\animal3D-A3DG\a3graphics-Vulkan\vk_mesh.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B6A36B2C-82C0-41F9-87DE-954EA2BE00F6}</ProjectGuid>
