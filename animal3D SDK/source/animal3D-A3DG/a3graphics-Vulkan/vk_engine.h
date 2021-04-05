@@ -32,6 +32,26 @@ struct DelQueue
 	}
 };
 
+
+/*
+* TODO:
+*	-Translate all of our structs into Animal structs, implementing the a3graphics interface.
+*		a3_BufferObject
+*		a3_VertexBuffer
+*		a3_VertexDescriptors
+*		a3_VertexDrawable		--Meshes I think
+*		a3_Framebuffer
+*		a3_ShaderProgram		--Idk about this one, since Vulkan handles things a bit differently
+*		a3_UniformBuffer		--Basically push constants
+*		a3_Texture
+*		a3_GraphicsObjectHandle	--I think it's just a generic object reference tracker, plus a release function for deletion.
+* 
+*	Might have to create some custom structs to manage other things, not too sure yet
+* 
+*	Still need to set up context & window creation in DemoState_load as the very first thing.
+*/
+
+
 class VulkanEngine {
 public:
 
@@ -119,6 +139,8 @@ private:
 	/// Initialize the swapchain
 	/// </summary>
 	/// <returns> returns 1 if success, 0 if error. Will also report error. </returns>
+	
+	//All of these need to get moved elsewhere, they'll be split up into their respective files.
 	uint32_t init_swapchain();
 
 	void init_commands();
