@@ -713,11 +713,13 @@ a3ret a3windowBeginMainLoop(a3_WindowInterface *window)
 			// if rendering, this should mean that a frame was rendered
 			if (idle > 0)
 			{
+				/*
 				if (a3rendererInternalContextIsCurrent(window->renderingContext))
 				{
 					// swap buffers
 					SwapBuffers(window->deviceContext);
 				}
+				*/
 			}
 
 			// if the result is negative, the demo should be unloaded
@@ -868,21 +870,21 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 			}
 
 			// enable drawing to this window by setting pixel format
-			a3rendererInternalSetContext(platform->dc, platform->rc);
-			a3rendererInternalChooseDefaultPixelFormat(platform->flag, platform->dc);
-			a3rendererInternalSetContext(0, 0);
-
+			//a3rendererInternalSetContext(platform->dc, platform->rc);
+			//a3rendererInternalChooseDefaultPixelFormat(platform->flag, platform->dc);
+			//a3rendererInternalSetContext(0, 0);
+			
 			// activate vertical sync and that's all
-			a3rendererInternalSetContext(platform->dc, platform->rc);
-			a3rendererInternalSetVsync(1);
-			a3rendererInternalSetContext(0, 0);
+			//a3rendererInternalSetContext(platform->dc, platform->rc);
+			//a3rendererInternalSetVsync(1);
+			//a3rendererInternalSetContext(0, 0);
 		}
 
 		// setup rendering context
 		else
 		{
 			// set platform's flag to signal pixel format selection
-			platform->flag = a3rendererInternalChooseDefaultPixelFormat(platform->flag, platform->dc);
+			//platform->flag = a3rendererInternalChooseDefaultPixelFormat(platform->flag, platform->dc);
 		}
 	}	break;
 	case WM_CLOSE: 
@@ -940,14 +942,14 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		case WA_CLICKACTIVE: 
 			// if window has rendering, the context will activate
 			// activate context first in case the callback needs to draw
-			a3rendererInternalSetContext(wnd->deviceContext, wnd->renderingContext);
+			//a3rendererInternalSetContext(wnd->deviceContext, wnd->renderingContext);
 			callbacks->callback_windowActivate(demo->data);
 			break;
 		case WA_INACTIVE: 
 			// reverse of above, callback then disable rendering
 			callbacks->callback_windowDeactivate(demo->data);
 			if (!wnd->rcAlways)
-				a3rendererInternalSetContext(0, 0);
+				//a3rendererInternalSetContext(0, 0);
 			break;
 		}
 		break;
@@ -1000,7 +1002,7 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 			a3windowInternalReloadMenu(wnd, demo);
 			break;
 		case A3_MENU_PRINT_RENDERER:
-			a3rendererDisplayInfoPrintFunc(&wnd->renderingContext, (a3windowInternalGetConsolePrint() ? printf : a3printf_vsdebug));
+			//a3rendererDisplayInfoPrintFunc(&wnd->renderingContext, (a3windowInternalGetConsolePrint() ? printf : a3printf_vsdebug));
 			break;
 		case A3_MENU_CLEAR_CONSOLE:
 			a3stdoutConsoleClear();

@@ -18,6 +18,15 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\vulkan-guide-starting-point\src\vk_engine.h" />
+    <ClInclude Include="..\..\..\..\vulkan-guide-starting-point\src\vk_initializers.h" />
+    <ClInclude Include="..\..\..\..\vulkan-guide-starting-point\src\vk_types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\vulkan-guide-starting-point\src\vk_engine.cpp" />
+    <ClCompile Include="..\..\..\..\vulkan-guide-starting-point\src\vk_initializers.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B6A36B2C-82C0-41F9-87DE-954EA2BE00F6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

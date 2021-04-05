@@ -33,8 +33,8 @@
 
 //-----------------------------------------------------------------------------
 // link renderer lib and respective dependencies
-#define A3_RENDERER_DEFAULT
-//#include "../../animal3D-DemoPlayerApp/_src_win/a3_app_renderer_config.h"
+#define A3_RENDERER_VULKAN
+#include "../../animal3D-DemoPlayerApp/_src_win/a3_app_renderer_config.h"
 
 
 //-----------------------------------------------------------------------------

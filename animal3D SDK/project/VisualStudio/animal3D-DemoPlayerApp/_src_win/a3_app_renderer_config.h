@@ -43,7 +43,7 @@
 #else	// !A3_RENDERER_OPENGL
 #ifdef A3_RENDERER_VULKAN
 #pragma comment(lib, "animal3D-A3DG-Vulkan.lib")
-//#pragma comment(lib, "opengl32.lib") //VK library
+#pragma comment(lib, "vulkan-1.lib") //VK library
 
 #else	// !A3_RENDERER_VULKAN
 #ifdef A3_RENDERER_DIRECTX

@@ -1,9 +1,9 @@
 ﻿// vulkan_guide.h : Include file for standard system include files,
 // or project specific include files.
 
-#pragma once
 
-#include <vk_types.h>
+//#include <VK/vulkan.h>
+#include "vk_types.h"
 #include <vector>
 #include <functional>
 #include <deque>
@@ -24,6 +24,7 @@ struct DelQueue
 		deletors.clear();
 	}
 };
+
 class VulkanEngine {
 public:
 
