@@ -35,6 +35,7 @@
 
 #include "a3_app_utils/Win32/a3_app_window.h"
 #include "a3_app_utils/Win32/a3_app_console.h"
+// I need to include some sort of render file here to create contexts on plugin load
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -390,7 +391,8 @@ void a3windowInternalLoadDemo(a3_WindowInterface *window, a3i32 id)
 	// Set up the render context based on demo choice
 	if (!strcmp((window->demo->records + id)->renderAPIName, "GL"))
 	{
-		// Create OpenGL render context (Do nothing since the default is OpenGL), this is just here to prove a point
+		// Create OpenGL render context
+		a3rendererCreateDefaultContext(window->renderingContext, window->wndClass);
 	}
 	else if (!strcmp((window->demo->records + id)->renderAPIName, "VK"))
 	{
@@ -803,9 +805,6 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		wnd->windowHandle = hWnd;
 		wnd->deviceContext = GetDC(hWnd);
 
-		// if this is a render window, initialize params
-		if (wnd->renderingContext)
-		{
 			// allocate console with first window
 			if (!renderWindowCount)
 				a3stdoutConsoleCreate();
@@ -817,7 +816,6 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 			wnd->mouseTracker->cbSize = sizeof(a3_MouseTracker);
 			wnd->mouseTracker->dwFlags = TME_LEAVE;
 			wnd->mouseTracker->hwndTrack = hWnd;
-		}
 
 		// set modified user data
 		SetWindowLongPtrA(hWnd, GWLP_USERDATA, (LONG_PTR)wnd);
@@ -833,9 +831,6 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		} a3_RenderPlatform;
 		a3_RenderPlatform *platform = (a3_RenderPlatform *)wnd;
 
-		// window has rendering, proceed with demo business
-		if (wnd->renderingContext)
-		{
 			// setup standalone window, no menu
 			if (wnd->isStandalone)
 			{
@@ -878,14 +873,6 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 			//a3rendererInternalSetContext(platform->dc, platform->rc);
 			//a3rendererInternalSetVsync(1);
 			//a3rendererInternalSetContext(0, 0);
-		}
-
-		// setup rendering context
-		else
-		{
-			// set platform's flag to signal pixel format selection
-			//platform->flag = a3rendererInternalChooseDefaultPixelFormat(platform->flag, platform->dc);
-		}
 	}	break;
 	case WM_CLOSE: 
 		// this will also recursively take down any menus the window has
@@ -894,8 +881,6 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 	case WM_DESTROY: {
 		// if this is a render window, unload demo
 		// render context should be deleted manually
-		if (wnd->renderingContext)
-		{
 			// unload demo and release demo info records
 			a3windowInternalUnloadDemo(wnd);
 			a3appReleaseDemoInfo(&demo->records);
@@ -911,7 +896,6 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 				a3stdoutConsoleRelease();
 				PostQuitMessage(0);
 			}
-		}
 
 		// release device context
 		if (wnd->deviceContext)
