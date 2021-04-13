@@ -103,6 +103,11 @@ public:
 
 	Mesh monkeyMesh; //:)
 
+	VkImageView depthImgView;
+	AllocImage depthImg;
+
+	VkFormat depthFormat;
+
 private:
 
 	static const uint64_t timer = 1000000000;
@@ -150,6 +155,8 @@ public:
 	VkPipelineColorBlendAttachmentState colorBlendAttachment;
 	VkPipelineMultisampleStateCreateInfo multisampling;
 	VkPipelineLayout pipelineLayout;
+	VkPipelineDepthStencilStateCreateInfo depthStencil;
+
 
 	VkPipeline build_pipeline(VkDevice device, VkRenderPass pass);
 };

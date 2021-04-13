@@ -24,5 +24,13 @@ namespace vkinit {
 	VkPipelineColorBlendAttachmentState color_blend_attachment_state();
 
 	VkPipelineLayoutCreateInfo pipeline_layout_create_info();
+
+	VkRenderPassBeginInfo renderpass_begin_info(VkRenderPass renderPass, VkExtent2D windowExtent, VkFramebuffer frameBuffers);
+
+	VkImageCreateInfo image_create_info(VkFormat format, VkImageUsageFlags useFlags, VkExtent3D extent);
+
+	VkImageViewCreateInfo imageview_create_info(VkFormat format, VkImage img, VkImageAspectFlags flags);
+
+	VkPipelineDepthStencilStateCreateInfo depth_stencil_create_info(bool bDepthTest, bool bDepthWrite, VkCompareOp compare);
 }
 
