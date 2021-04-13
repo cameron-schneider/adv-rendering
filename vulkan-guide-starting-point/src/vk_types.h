@@ -12,4 +12,10 @@ struct AllocBuffer
 	VmaAllocation alloc;
 };
 
+struct AllocImage
+{
+	VkImage image;
+	VmaAllocation alloc;
+};
+
 //we will add our main reusable types here

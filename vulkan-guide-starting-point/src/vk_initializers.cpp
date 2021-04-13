@@ -122,3 +122,73 @@ VkPipelineLayoutCreateInfo vkinit::pipeline_layout_create_info()
 	info.pPushConstantRanges = nullptr;
 	return info;
 }
+
+VkRenderPassBeginInfo vkinit::renderpass_begin_info(VkRenderPass renderPass, VkExtent2D windowExtent, VkFramebuffer frameBuffers)
+{
+	VkRenderPassBeginInfo info;
+
+	info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+	info.pNext = nullptr;
+	info.renderPass = renderPass;
+
+	info.renderArea.offset.x = 0;
+	info.renderArea.offset.y = 0;
+	info.renderArea.extent = windowExtent;
+	info.framebuffer = frameBuffers;
+
+	return info;
+}
+
+VkImageCreateInfo vkinit::image_create_info(VkFormat format, VkImageUsageFlags useFlags, VkExtent3D extent)
+{
+	VkImageCreateInfo info{};
+	info.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+	info.pNext = nullptr;
+	info.imageType = VK_IMAGE_TYPE_2D;
+
+	info.format = format;
+	info.extent = extent;
+
+	info.mipLevels = 1;
+	info.arrayLayers = 1;
+	info.samples = VK_SAMPLE_COUNT_1_BIT;
+	info.tiling = VK_IMAGE_TILING_OPTIMAL;
+	info.usage = useFlags;
+
+	return info;
+}
+
+VkImageViewCreateInfo vkinit::imageview_create_info(VkFormat format, VkImage img, VkImageAspectFlags flags)
+{
+	VkImageViewCreateInfo info{};
+	info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+	info.pNext = nullptr;
+
+	info.viewType = VK_IMAGE_VIEW_TYPE_2D;
+	info.image = img;
+	info.format = format;
+	info.subresourceRange.baseMipLevel = 0;
+	info.subresourceRange.levelCount = 1;
+	info.subresourceRange.baseArrayLayer = 0;
+	info.subresourceRange.layerCount = 1;
+	info.subresourceRange.aspectMask = flags;
+
+	return info;
+}
+
+VkPipelineDepthStencilStateCreateInfo vkinit::depth_stencil_create_info(bool bDepthTest, bool bDepthWrite, VkCompareOp compare)
+{
+	VkPipelineDepthStencilStateCreateInfo info = {};
+	info.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+	info.pNext = nullptr;
+
+	info.depthTestEnable = bDepthTest ? VK_TRUE : VK_FALSE;
+	info.depthWriteEnable = bDepthWrite ? VK_TRUE : VK_FALSE;
+	info.depthCompareOp = bDepthTest ? compare : VK_COMPARE_OP_ALWAYS;
+	info.depthBoundsTestEnable = VK_FALSE;
+	info.minDepthBounds = 0.0f;
+	info.maxDepthBounds = 1.0f;
+	info.stencilTestEnable = VK_FALSE;
+
+	return info;
+}
