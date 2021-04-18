@@ -160,6 +160,9 @@ inline void a3demo_releaseText(a3_DemoState* demoState)
 
 void a3demo_load(a3_DemoState* demoState)
 {
+	// Load render context
+	
+
 	// demo modes
 	demoState->demoModeCallbacksPtr = demoState->demoModeCallbacks + demoState->demoMode;
 	a3intro_load(demoState, demoState->demoMode0);
@@ -191,6 +194,9 @@ void a3demo_load(a3_DemoState* demoState)
 
 void a3demo_unload(a3_DemoState* demoState)
 {
+	// release render context
+
+
 	a3demo_unloadGeometry(demoState);
 	a3demo_unloadShaders(demoState);
 	a3demo_unloadTextures(demoState);

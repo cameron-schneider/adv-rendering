@@ -387,19 +387,6 @@ void a3windowInternalLoadDemo(a3_WindowInterface *window, a3i32 id)
 	// use hotloader interface to read and link functions
 	a3i32 status = a3appLoadCallbacks(window->demo, (window->demo->records + id));
 
-
-	// Set up the render context based on demo choice
-	if (!strcmp((window->demo->records + id)->renderAPIName, "GL"))
-	{
-		// Create OpenGL render context
-		a3rendererCreateDefaultContext(window->renderingContext, window->wndClass);
-	}
-	else if (!strcmp((window->demo->records + id)->renderAPIName, "VK"))
-	{
-		// Create VK render context
-	}
-
-
 	if (status > 0)
 	{
 		// set ID
