@@ -387,6 +387,8 @@ void a3windowInternalLoadDemo(a3_WindowInterface *window, a3i32 id)
 	// use hotloader interface to read and link functions
 	a3i32 status = a3appLoadCallbacks(window->demo, (window->demo->records + id));
 
+	//a3rendererReleaseContext(window->renderingContext);
+
 	if (status > 0)
 	{
 		// set ID
@@ -792,6 +794,8 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		wnd->windowHandle = hWnd;
 		wnd->deviceContext = GetDC(hWnd);
 
+		if (wnd->renderingContext)
+		{
 			// allocate console with first window
 			if (!renderWindowCount)
 				a3stdoutConsoleCreate();
@@ -803,6 +807,8 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 			wnd->mouseTracker->cbSize = sizeof(a3_MouseTracker);
 			wnd->mouseTracker->dwFlags = TME_LEAVE;
 			wnd->mouseTracker->hwndTrack = hWnd;
+
+		}
 
 		// set modified user data
 		SetWindowLongPtrA(hWnd, GWLP_USERDATA, (LONG_PTR)wnd);
@@ -816,8 +822,10 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 			a3_RenderingContext rc;
 			a3i32 flag;
 		} a3_RenderPlatform;
-		a3_RenderPlatform *platform = (a3_RenderPlatform *)wnd;
+		a3_RenderPlatform* platform = (a3_RenderPlatform*)wnd;
 
+		if (wnd->renderingContext)
+		{
 			// setup standalone window, no menu
 			if (wnd->isStandalone)
 			{
@@ -852,14 +860,20 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 			}
 
 			// enable drawing to this window by setting pixel format
-			//a3rendererInternalSetContext(platform->dc, platform->rc);
-			//a3rendererInternalChooseDefaultPixelFormat(platform->flag, platform->dc);
-			//a3rendererInternalSetContext(0, 0);
-			
+			a3rendererInternalSetContext(platform->dc, platform->rc);
+			a3rendererInternalChooseDefaultPixelFormat(platform->flag, platform->dc);
+			a3rendererInternalSetContext(0, 0);
+
 			// activate vertical sync and that's all
-			//a3rendererInternalSetContext(platform->dc, platform->rc);
-			//a3rendererInternalSetVsync(1);
-			//a3rendererInternalSetContext(0, 0);
+			a3rendererInternalSetContext(platform->dc, platform->rc);
+			a3rendererInternalSetVsync(1);
+			a3rendererInternalSetContext(0, 0);
+		}
+		else
+		{
+			platform->flag = a3rendererInternalChooseDefaultPixelFormat(platform->flag, platform->dc);
+		}
+
 	}	break;
 	case WM_CLOSE: 
 		// this will also recursively take down any menus the window has
@@ -868,6 +882,8 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 	case WM_DESTROY: {
 		// if this is a render window, unload demo
 		// render context should be deleted manually
+		if (wnd->renderingContext)
+		{
 			// unload demo and release demo info records
 			a3windowInternalUnloadDemo(wnd);
 			a3appReleaseDemoInfo(&demo->records);
@@ -883,6 +899,8 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 				a3stdoutConsoleRelease();
 				PostQuitMessage(0);
 			}
+
+		}
 
 		// release device context
 		if (wnd->deviceContext)

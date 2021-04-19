@@ -36,7 +36,6 @@
 #include "animal3D/animal3D.h"
 #include "animal3D-A3DG/animal3D-A3DG.h"
 
-
 //-----------------------------------------------------------------------------
 // other demo includes
 
@@ -45,6 +44,8 @@
 
 #include "a3_DemoMode0_Intro.h"
 #include "a3_DemoMode1_PostProc.h"
+
+#include <Windows.h>
 
 
 //-----------------------------------------------------------------------------
@@ -61,6 +62,13 @@ typedef enum	a3_DemoState_TextDisplayName	a3_DemoState_TextDisplayName;
 
 
 //-----------------------------------------------------------------------------
+
+typedef struct tagA3RENDERPLATFORM {
+	HWND hwnd;
+	HDC dc;
+	HGLRC rc;
+	a3i32 flag;
+} a3_RenderPlatform;
 
 // demo mode names
 enum a3_DemoState_ModeName
@@ -140,6 +148,7 @@ struct a3_DemoState
 	a3real frameWidthInv, frameHeightInv, frameAspect;
 	a3i32 frameBorder;
 
+	a3_RenderPlatform renderPlat;
 
 	//-------------------------------------------------------------------------
 	// objects that have known or fixed instance count in the whole demo

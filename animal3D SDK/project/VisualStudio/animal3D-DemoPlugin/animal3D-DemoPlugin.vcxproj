@@ -96,7 +96,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN$(PlatformArchitecture);_WINDOWS;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;_USRDLL;ANIMAL3DDEMOPLUGIN_EXPORTS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ANIMAL3D_SDK)include\;$(ANIMAL3D_SDK)source\$(ProjectName)\;$(ANIMAL3D_SDK)thirdparty\include\;$(DEV_SDK_DIR)include\;$(VK_SDK_PATH)\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ANIMAL3D_SDK)include\;$(ANIMAL3D_SDK)source\$(ProjectName)\;$(ANIMAL3D_SDK)thirdparty\include\;$(DEV_SDK_DIR)include\;$(VK_SDK_PATH)\include\;$(ANIMAL3D_SDK)include\animal3D\a3\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <TreatWarningAsError>true</TreatWarningAsError>
       <SDLCheck>
@@ -120,7 +120,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN$(PlatformArchitecture);_WINDOWS;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;_USRDLL;ANIMAL3DDEMOPLUGIN_EXPORTS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ANIMAL3D_SDK)include\;$(ANIMAL3D_SDK)source\$(ProjectName)\;$(ANIMAL3D_SDK)thirdparty\include\;$(DEV_SDK_DIR)include\;$(VK_SDK_PATH)\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ANIMAL3D_SDK)include\;$(ANIMAL3D_SDK)source\$(ProjectName)\;$(ANIMAL3D_SDK)thirdparty\include\;$(DEV_SDK_DIR)include\;$(VK_SDK_PATH)\include\;$(ANIMAL3D_SDK)include\animal3D\a3\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <TreatWarningAsError>true</TreatWarningAsError>
       <SDLCheck>
@@ -146,7 +146,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN$(PlatformArchitecture);_WINDOWS;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;_USRDLL;ANIMAL3DDEMOPLUGIN_EXPORTS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ANIMAL3D_SDK)include\;$(ANIMAL3D_SDK)source\$(ProjectName)\;$(ANIMAL3D_SDK)thirdparty\include\;$(DEV_SDK_DIR)include\;$(VK_SDK_PATH)\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ANIMAL3D_SDK)include\;$(ANIMAL3D_SDK)source\$(ProjectName)\;$(ANIMAL3D_SDK)thirdparty\include\;$(DEV_SDK_DIR)include\;$(VK_SDK_PATH)\include\;$(ANIMAL3D_SDK)include\animal3D\a3\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <SDLCheck>
       </SDLCheck>
@@ -174,7 +174,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN$(PlatformArchitecture);_WINDOWS;WIN32_LEAN_AND_MEAN;_CRT_SECURE_NO_WARNINGS;_USRDLL;ANIMAL3DDEMOPLUGIN_EXPORTS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ANIMAL3D_SDK)include\;$(ANIMAL3D_SDK)source\$(ProjectName)\;$(ANIMAL3D_SDK)thirdparty\include\;$(DEV_SDK_DIR)include\;$(VK_SDK_PATH)\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ANIMAL3D_SDK)include\;$(ANIMAL3D_SDK)source\$(ProjectName)\;$(ANIMAL3D_SDK)thirdparty\include\;$(DEV_SDK_DIR)include\;$(VK_SDK_PATH)\include\;$(ANIMAL3D_SDK)include\animal3D\a3\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <SDLCheck>
       </SDLCheck>

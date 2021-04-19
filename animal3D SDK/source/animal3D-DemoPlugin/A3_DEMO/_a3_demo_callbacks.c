@@ -35,6 +35,7 @@
 #include "_a3_demo_utilities/a3_DemoMacros.h"
 #include "_a3_demo_utilities/a3_DemoRenderUtils.h"
 
+#include "../animal3D-DemoPlayerApp/a3_app_utils/Win32/a3_app_renderer.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -160,8 +161,16 @@ inline void a3demo_releaseText(a3_DemoState* demoState)
 
 void a3demo_load(a3_DemoState* demoState)
 {
-	// Load render context
-	
+	// load render context
+	char wndClassName[512];
+	a3_WindowClass classA;
+
+	RealGetWindowClassA(GetActiveWindow(), wndClassName, sizeof(wndClassName));
+
+	GetClassInfoExA(GetModuleHandle(0), wndClassName, &classA);
+
+	// Use Windows API to get the current window class, then use standard a3 calls for context creation
+	a3rendererCreateDefaultContext(&demoState->renderPlat.rc, &classA);
 
 	// demo modes
 	demoState->demoModeCallbacksPtr = demoState->demoModeCallbacks + demoState->demoMode;
