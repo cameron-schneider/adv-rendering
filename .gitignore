@@ -6,8 +6,7 @@
 *.BASE.txt
 *.LOCAL.txt
 *.REMOTE.txt
-bin*/
-lib*/
+/animal3D SDK/lib*/
 gen*/
 build*/
 [dD]ebug*/
