@@ -142,9 +142,9 @@ a3boolean a3rendererInternalContextIsCurrent(const a3_RenderingContext rendering
 }
 
 // set current context
-void a3rendererInternalSetContext(HDC deviceContext, a3_RenderingContext renderingContext)
+a3boolean a3rendererInternalSetContext(HDC deviceContext, a3_RenderingContext renderingContext)
 {
-	wglMakeCurrent(deviceContext, renderingContext);
+	return wglMakeCurrent(deviceContext, renderingContext);
 }
 
 // set vertical sync

@@ -159,18 +159,27 @@ inline void a3demo_releaseText(a3_DemoState* demoState)
 
 //-----------------------------------------------------------------------------
 
+extern a3boolean a3rendererInternalSetContext(HDC deviceContext, a3_RenderingContext renderingContext);
+
 void a3demo_load(a3_DemoState* demoState)
 {
 	// load render context
-	char wndClassName[512];
+	char wndClassName[1024];
 	a3_WindowClass classA;
 
 	RealGetWindowClassA(GetActiveWindow(), wndClassName, sizeof(wndClassName));
 
 	GetClassInfoExA(GetModuleHandle(0), wndClassName, &classA);
 
-	// Use Windows API to get the current window class, then use standard a3 calls for context creation
+	demoState->renderPlat.dc = GetDC(GetActiveWindow());
+
+	a3rendererInternalSetContext(demoState->renderPlat.dc, 0);
+
 	a3rendererCreateDefaultContext(&demoState->renderPlat.rc, &classA);
+
+	//while (!a3rendererInternalSetContext(demoState->renderPlat.dc, demoState->renderPlat.rc))
+	//	;
+
 
 	// demo modes
 	demoState->demoModeCallbacksPtr = demoState->demoModeCallbacks + demoState->demoMode;
@@ -204,7 +213,7 @@ void a3demo_load(a3_DemoState* demoState)
 void a3demo_unload(a3_DemoState* demoState)
 {
 	// release render context
-
+	//a3rendererReleaseContext((a3_RenderingContext*)demoState->renderPlat.rc);
 
 	a3demo_unloadGeometry(demoState);
 	a3demo_unloadShaders(demoState);

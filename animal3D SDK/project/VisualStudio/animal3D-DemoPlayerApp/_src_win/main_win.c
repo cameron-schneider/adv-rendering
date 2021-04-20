@@ -81,15 +81,19 @@ int APIENTRY wWinMain(
 			status = a3windowInitPlatformEnvironment(&env, _A3VSLAUNCHPATHSTR, _A3SLNPATHSTR, _A3SDKDIRSTR, _A3CFGDIRSTR);
 
 			// create window
-			status = a3windowCreate(&wnd, &wndClass, &env, &renderContext, wndName, winWidth, winHeight, 1, 0);
+			status = a3windowCreate(&wnd, &wndClass, &env, 0, wndName, winWidth, winHeight, 1, 0);
+
+			if (status > 0)
+			{
+				// kill rendering context
+				status = a3rendererReleaseContext(&renderContext);
+			}
+
 			if (status > 0)
 			{
 				// main loop
 				status = a3windowBeginMainLoop(&wnd);
 			}
-
-			// kill rendering context
-			//status = a3rendererReleaseContext(&renderContext);
 		}
 
 		// kill window class

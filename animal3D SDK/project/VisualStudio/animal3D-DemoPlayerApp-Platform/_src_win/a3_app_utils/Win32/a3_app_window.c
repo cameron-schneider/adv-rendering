@@ -65,7 +65,7 @@ extern a3i32 a3rendererInternalChooseDefaultPixelFormat(const a3i32 flag, const 
 extern a3boolean a3rendererInternalContextIsCurrent(const a3_RenderingContext renderingContext);
 
 // set render context
-extern void a3rendererInternalSetContext(HDC deviceContext, a3_RenderingContext renderingContext);
+extern a3boolean a3rendererInternalSetContext(HDC deviceContext, a3_RenderingContext renderingContext);
 
 // set vertical sync
 extern void a3rendererInternalSetVsync(a3i32 interval);
@@ -826,39 +826,6 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 
 		if (wnd->renderingContext)
 		{
-			// setup standalone window, no menu
-			if (wnd->isStandalone)
-			{
-				// allocate and load single demo info
-				a3appAllocDemoInfo(&demo->records, 1);
-				demo->numRecords = a3appLoadDemoInfo(&demo->records,
-					"./animal3D-demos/animal3D-demoinfo.txt", 1);
-				if (demo->numRecords)
-				{
-					// moved to after window is shown to ensure context gets set
-				//	a3windowInternalLoadDemo(wnd, 0);
-				}
-				else
-				{
-					MessageBoxA(hWnd, "A3 ERROR: Demo config file not found.", "ANIMAL3D ERROR", MB_ICONERROR | MB_OK);
-					DestroyWindow(hWnd);
-				}
-			}
-
-			// setup debug window with menu
-			else
-			{
-				// load menu items
-				demo->numRecords = a3appLoadDemoInfo(&demo->records,
-					"../../../../resource/animal3D-data/animal3D-demoinfo.txt", 0);
-
-				// create menu for render window
-				a3windowInternalCreateMenu(wnd, demo->records, demo->numRecords);
-
-				// window is not currently running demo
-				demo->id = -1;
-			}
-
 			// enable drawing to this window by setting pixel format
 			a3rendererInternalSetContext(platform->dc, platform->rc);
 			a3rendererInternalChooseDefaultPixelFormat(platform->flag, platform->dc);
@@ -872,6 +839,39 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		else
 		{
 			platform->flag = a3rendererInternalChooseDefaultPixelFormat(platform->flag, platform->dc);
+		}
+
+		// setup standalone window, no menu
+		if (wnd->isStandalone)
+		{
+			// allocate and load single demo info
+			a3appAllocDemoInfo(&demo->records, 1);
+			demo->numRecords = a3appLoadDemoInfo(&demo->records,
+				"./animal3D-demos/animal3D-demoinfo.txt", 1);
+			if (demo->numRecords)
+			{
+				// moved to after window is shown to ensure context gets set
+			//	a3windowInternalLoadDemo(wnd, 0);
+			}
+			else
+			{
+				MessageBoxA(hWnd, "A3 ERROR: Demo config file not found.", "ANIMAL3D ERROR", MB_ICONERROR | MB_OK);
+				DestroyWindow(hWnd);
+			}
+		}
+
+		// setup debug window with menu
+		else
+		{
+			// load menu items
+			demo->numRecords = a3appLoadDemoInfo(&demo->records,
+				"../../../../resource/animal3D-data/animal3D-demoinfo.txt", 0);
+
+			// create menu for render window
+			a3windowInternalCreateMenu(wnd, demo->records, demo->numRecords);
+
+			// window is not currently running demo
+			demo->id = -1;
 		}
 
 	}	break;
