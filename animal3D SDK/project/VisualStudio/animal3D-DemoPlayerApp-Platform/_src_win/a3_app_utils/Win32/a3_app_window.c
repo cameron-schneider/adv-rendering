@@ -700,22 +700,9 @@ a3ret a3windowBeginMainLoop(a3_WindowInterface *window)
 		{
 			idle = window->demo->callbacks->callback_idle(window->demo->data);
 
-			// if the result is positive, idle is successful
-			// if rendering, this should mean that a frame was rendered
-			if (idle > 0)
-			{
-				/*
-				if (a3rendererInternalContextIsCurrent(window->renderingContext))
-				{
-					// swap buffers
-					SwapBuffers(window->deviceContext);
-				}
-				*/
-			}
-
 			// if the result is negative, the demo should be unloaded
 			// standalone window should close the window, which also unloads
-			else if (idle < 0)
+			if (idle < 0)
 			{
 				if (window->isStandalone)
 				{
@@ -838,25 +825,32 @@ LRESULT CALLBACK a3windowInternalWndProc(HWND hWnd, UINT message, WPARAM wParam,
 		}
 		else
 		{
-			platform->flag = a3rendererInternalChooseDefaultPixelFormat(platform->flag, platform->dc);
+			if(platform->flag == 0 || platform->flag ==1)
+				platform->flag = a3rendererInternalChooseDefaultPixelFormat(platform->flag, platform->dc);
+			else
+				platform->flag = a3rendererInternalChooseDefaultPixelFormat(0, platform->dc);
 		}
 
 		// setup standalone window, no menu
 		if (wnd->isStandalone)
 		{
 			// allocate and load single demo info
-			a3appAllocDemoInfo(&demo->records, 1);
-			demo->numRecords = a3appLoadDemoInfo(&demo->records,
-				"./animal3D-demos/animal3D-demoinfo.txt", 1);
-			if (demo->numRecords)
+			a3i32 status = a3appAllocDemoInfo(&demo->records, 1);
+
+			if (status > 0)
 			{
-				// moved to after window is shown to ensure context gets set
-			//	a3windowInternalLoadDemo(wnd, 0);
-			}
-			else
-			{
-				MessageBoxA(hWnd, "A3 ERROR: Demo config file not found.", "ANIMAL3D ERROR", MB_ICONERROR | MB_OK);
-				DestroyWindow(hWnd);
+				demo->numRecords = a3appLoadDemoInfo(&demo->records,
+					"./animal3D-demos/animal3D-demoinfo.txt", 1);
+				if (demo->numRecords)
+				{
+					// moved to after window is shown to ensure context gets set
+				//	a3windowInternalLoadDemo(wnd, 0);
+				}
+				else
+				{
+					MessageBoxA(hWnd, "A3 ERROR: Demo config file not found.", "ANIMAL3D ERROR", MB_ICONERROR | MB_OK);
+					DestroyWindow(hWnd);
+				}
 			}
 		}
 

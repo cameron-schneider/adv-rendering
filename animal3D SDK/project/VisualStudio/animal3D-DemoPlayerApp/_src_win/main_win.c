@@ -74,7 +74,7 @@ int APIENTRY wWinMain(
 	if (status > 0)
 	{
 		// create rendering context
-		status = a3rendererCreateDefaultContext(&renderContext, &wndClass);
+		//status = a3rendererCreateDefaultContext(&renderContext, &wndClass);
 		if (status > 0)
 		{
 			// init platform environment for debugging
@@ -83,11 +83,11 @@ int APIENTRY wWinMain(
 			// create window
 			status = a3windowCreate(&wnd, &wndClass, &env, 0, wndName, winWidth, winHeight, 1, 0);
 
-			if (status > 0)
-			{
-				// kill rendering context
-				status = a3rendererReleaseContext(&renderContext);
-			}
+			//if (status > 0)
+			//{
+			//	// kill rendering context
+			//	status = a3rendererReleaseContext(&renderContext);
+			//}
 
 			if (status > 0)
 			{

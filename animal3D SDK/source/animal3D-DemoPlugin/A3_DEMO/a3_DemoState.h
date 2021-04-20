@@ -46,8 +46,9 @@
 #include "a3_DemoMode1_PostProc.h"
 
 #include <Windows.h>
+#include "../animal3D-DemoPlayerApp/a3_app_utils/Win32/a3_app_renderer.h"
 
-
+extern a3boolean a3rendererInternalSetContext(HDC deviceContext, a3_RenderingContext renderingContext);
 //-----------------------------------------------------------------------------
 
 #ifdef __cplusplus
@@ -64,10 +65,8 @@ typedef enum	a3_DemoState_TextDisplayName	a3_DemoState_TextDisplayName;
 //-----------------------------------------------------------------------------
 
 typedef struct tagA3RENDERPLATFORM {
-	HWND hwnd;
 	HDC dc;
 	HGLRC rc;
-	a3i32 flag;
 } a3_RenderPlatform;
 
 // demo mode names

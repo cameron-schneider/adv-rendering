@@ -35,7 +35,7 @@
 #include "_a3_demo_utilities/a3_DemoMacros.h"
 #include "_a3_demo_utilities/a3_DemoRenderUtils.h"
 
-#include "../animal3D-DemoPlayerApp/a3_app_utils/Win32/a3_app_renderer.h"
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -159,7 +159,7 @@ inline void a3demo_releaseText(a3_DemoState* demoState)
 
 //-----------------------------------------------------------------------------
 
-extern a3boolean a3rendererInternalSetContext(HDC deviceContext, a3_RenderingContext renderingContext);
+//extern a3boolean a3rendererInternalSetContext(HDC deviceContext, a3_RenderingContext renderingContext);
 
 void a3demo_load(a3_DemoState* demoState)
 {
@@ -173,13 +173,10 @@ void a3demo_load(a3_DemoState* demoState)
 
 	demoState->renderPlat.dc = GetDC(GetActiveWindow());
 
-	a3rendererInternalSetContext(demoState->renderPlat.dc, 0);
-
 	a3rendererCreateDefaultContext(&demoState->renderPlat.rc, &classA);
 
-	//while (!a3rendererInternalSetContext(demoState->renderPlat.dc, demoState->renderPlat.rc))
-	//	;
-
+	while (!a3rendererInternalSetContext(demoState->renderPlat.dc, demoState->renderPlat.rc))
+		;
 
 	// demo modes
 	demoState->demoModeCallbacksPtr = demoState->demoModeCallbacks + demoState->demoMode;
@@ -212,9 +209,6 @@ void a3demo_load(a3_DemoState* demoState)
 
 void a3demo_unload(a3_DemoState* demoState)
 {
-	// release render context
-	//a3rendererReleaseContext((a3_RenderingContext*)demoState->renderPlat.rc);
-
 	a3demo_unloadGeometry(demoState);
 	a3demo_unloadShaders(demoState);
 	a3demo_unloadTextures(demoState);

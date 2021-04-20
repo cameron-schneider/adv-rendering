@@ -253,6 +253,11 @@ void a3demo_render(a3_DemoState* demoState, a3f64 const dt)
 			}
 		}
 	}
+
+
+	// swap buffers
+	SwapBuffers(demoState->renderPlat.dc);
+
 }
 
 
