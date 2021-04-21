@@ -47,6 +47,7 @@ typedef void(*a3_voidFunc_ptrInt)(void *, a3i32);
 typedef void(*a3_voidFunc_ptrIntInt)(void *, a3i32, a3i32);
 typedef void(*a3_voidFunc_ptrIntIntInt)(void *, a3i32, a3i32, a3i32);
 typedef void *(*a3_ptrFunc_ptrInt)(void *, a3i32);
+typedef void *(*a3_ptrFunc_ptrIntInt)(void *, a3i32, a3i32);
 typedef a3i32(*a3_intFunc_ptr)(void *);
 
 

@@ -217,6 +217,9 @@ void a3demo_unload(a3_DemoState* demoState)
 	demoState->demoModeCallbacksPtr = demoState->demoModeCallbacks + demoState->demoMode;
 	a3intro_unload(demoState, demoState->demoMode0);
 	a3postproc_unload(demoState, demoState->demoMode1);
+
+	a3rendererReleaseContext(&demoState->renderPlat.rc);
+
 }
 
 void a3demoMode_loadValidate(a3_DemoState* demoState)
@@ -356,7 +359,7 @@ A3DYLIBSYMBOL a3_DemoState *a3demoCB_load(a3_DemoState *demoState, a3boolean hot
 
 		// initialize state variables
 		// e.g. timer, thread, etc.
-		a3timerSet(demoState->timer_display, 30.0);
+		a3timerSet(demoState->timer_display,30.0);
 		a3timerStart(demoState->timer_display);
 	}
 

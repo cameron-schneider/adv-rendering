@@ -2,6 +2,7 @@
 #include "vk_engine.h"
 
 #include <VK/vkb/VkBootstrap.h>
+#include <VK/vulkan_win32.h>
 
 #include "vk_types.h"
 #include "vk_initializers.h"
@@ -11,7 +12,6 @@
 
 using namespace std;
 using namespace vkb;
-
 
 
 #define VK_CHECK(x)                                             \
@@ -233,6 +233,7 @@ uint32_t VulkanEngine::init_vk_context()
 		.request_validation_layers(true)
 		.require_api_version(1, 1, 0)
 		.use_default_debug_messenger()
+		.enable_extension(VK_KHR_WIN32_SURFACE_EXTENSION_NAME)
 		.build();
 
 	instance = inst.value().instance;
@@ -240,6 +241,11 @@ uint32_t VulkanEngine::init_vk_context()
 	debugMessenger = inst.value().debug_messenger;
 
 	//SDL_Vulkan_CreateSurface(window, instance, &surface);
+	VkWin32SurfaceCreateInfoKHR platformSurfaceInfo;
+	platformSurfaceInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
+	platformSurfaceInfo.pNext = nullptr;
+	platformSurfaceInfo.flags = 0;
+	
 
 	PhysicalDeviceSelector selector{ inst.value() };
 	PhysicalDevice physDev = selector
