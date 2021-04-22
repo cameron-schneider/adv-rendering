@@ -133,7 +133,7 @@ private:
 	/// Initialize VK instance, SDL surface, and device/physical device
 	/// </summary>
 	/// <returns> returns 1 if success, 0 if error. Will also report error. </returns>
-	uint32_t init_vk_context();
+	uint32_t a3createDefaultVKContext();
 
 	/// <summary>
 	/// Initialize the swapchain

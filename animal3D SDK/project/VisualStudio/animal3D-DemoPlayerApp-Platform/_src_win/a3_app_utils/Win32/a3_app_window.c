@@ -395,7 +395,7 @@ void a3windowInternalLoadDemo(a3_WindowInterface *window, a3i32 id)
 		window->demo->id = id;
 
 		// callbacks: load, invoke window move, invoke resize
-		window->demo->data = window->demo->callbacks->callback_load(window->demo->data, 0);
+		window->demo->data = window->demo->callbacks->callback_load(window->demo->data, 0, 0);
 		window->demo->callbacks->callback_windowMove(window->demo->data, window->demo->winPosX, window->demo->winPosY);
 		window->demo->callbacks->callback_windowResize(window->demo->data, window->demo->winSzX, window->demo->winSzY);
 	}
@@ -486,7 +486,7 @@ void a3windowInternalHotloadDemoComplete(a3_WindowInterface *window, a3boolean r
 
 			// callback
 			// different from above because it should handle persistent data
-			window->demo->data = window->demo->callbacks->callback_load(window->demo->data, 1);
+			window->demo->data = window->demo->callbacks->callback_load(window->demo->data, 1, 0);
 			window->demo->callbacks->callback_windowMove(window->demo->data, window->demo->winPosX, window->demo->winPosY);
 			window->demo->callbacks->callback_windowResize(window->demo->data, window->demo->winSzX, window->demo->winSzY);
 		}

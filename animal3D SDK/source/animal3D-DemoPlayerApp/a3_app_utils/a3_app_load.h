@@ -56,7 +56,8 @@ typedef a3i32(*a3_intFunc_ptr)(void *);
 typedef union tagA3_CALLBACKFUNCTIONS
 {
 	struct {
-		a3_ptrFunc_ptrInt callback_load, callback_unload;
+		a3_ptrFunc_ptrIntInt callback_load;
+		a3_ptrFunc_ptrInt callback_unload;
 		a3_intFunc_ptr callback_display, callback_idle;
 		a3_voidFunc_ptr callback_windowActivate, callback_windowDeactivate;
 		a3_voidFunc_ptrIntInt callback_windowMove, callback_windowResize;

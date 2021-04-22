@@ -100,6 +100,7 @@ void a3appDummy_voidFunc_ptrInt(void *p, a3i32 i) {};
 void a3appDummy_voidFunc_ptrIntInt(void *p, a3i32 i0, a3i32 i1) {};
 void a3appDummy_voidFunc_ptrIntIntInt(void *p, a3i32 i0, a3i32 i1, a3i32 i2) {};
 void *a3appDummy_ptrFunc_ptrInt(void *p, a3i32 i) { return p; };
+void *a3appDummy_ptrFunc_ptrIntInt(void *p, a3i32 i, a3i32 i1) { return p; };
 a3ret a3appDummy_intFunc_ptr(void *p) { return 0; }
 
 // set all callbacks in a window structure to the respective dummy functions
@@ -107,8 +108,8 @@ a3ret a3appSetDummyCallbacks(a3_CallbackFunctions *callbacks)
 {
 	if (callbacks)
 	{
-		callbacks->callback_load
-			= callbacks->callback_unload = a3appDummy_ptrFunc_ptrInt;
+		callbacks->callback_load = a3appDummy_ptrFunc_ptrIntInt;
+		callbacks->callback_unload = a3appDummy_ptrFunc_ptrInt;
 		callbacks->callback_display
 			= callbacks->callback_idle = a3appDummy_intFunc_ptr;
 		callbacks->callback_windowActivate

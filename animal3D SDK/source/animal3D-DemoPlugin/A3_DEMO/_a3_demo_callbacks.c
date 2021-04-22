@@ -35,7 +35,7 @@
 #include "_a3_demo_utilities/a3_DemoMacros.h"
 #include "_a3_demo_utilities/a3_DemoRenderUtils.h"
 
-
+#include "../../animal3D-A3DG/a3graphics-Vulkan/vk_initializers.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,7 +57,7 @@ extern "C"
 {
 #endif	// __cplusplus
 
-	A3DYLIBSYMBOL a3_DemoState* a3demoCB_load(a3_DemoState* demoState, a3boolean hotbuild);
+	A3DYLIBSYMBOL a3_DemoState* a3demoCB_load(a3_DemoState* demoState, a3boolean hotbuild, a3i32 renderAPI);
 	A3DYLIBSYMBOL a3_DemoState* a3demoCB_unload(a3_DemoState* demoState, a3boolean hotbuild);
 	A3DYLIBSYMBOL a3i32 a3demoCB_display(a3_DemoState* demoState);
 	A3DYLIBSYMBOL a3i32 a3demoCB_idle(a3_DemoState* demoState);
@@ -161,7 +161,7 @@ inline void a3demo_releaseText(a3_DemoState* demoState)
 
 //extern a3boolean a3rendererInternalSetContext(HDC deviceContext, a3_RenderingContext renderingContext);
 
-void a3demo_load(a3_DemoState* demoState)
+void a3createGLContext(a3_DemoState* demoState)
 {
 	// load render context
 	char wndClassName[1024];
@@ -177,6 +177,40 @@ void a3demo_load(a3_DemoState* demoState)
 
 	while (!a3rendererInternalSetContext(demoState->renderPlat.dc, demoState->renderPlat.rc))
 		;
+}
+
+void a3createVKContext(a3_DemoState* demoState)
+{
+	// load render context
+	char wndClassName[1024];
+	a3_WindowClass classA;
+
+	RealGetWindowClassA(GetActiveWindow(), wndClassName, sizeof(wndClassName));
+
+	GetClassInfoExA(GetModuleHandle(0), wndClassName, &classA);
+
+	demoState->renderPlat.dc = GetDC(GetActiveWindow());
+
+	
+}
+
+void a3demo_load(a3_DemoState* demoState, a3i32 renderAPI)
+{
+
+
+	switch (renderAPI)
+	{
+	case 0:
+		a3createGLContext(demoState);
+		break;
+	case 1:
+		
+		break;
+	default:
+		a3createGLContext(demoState);
+		break;
+	}
+
 
 	// demo modes
 	demoState->demoModeCallbacksPtr = demoState->demoModeCallbacks + demoState->demoMode;
@@ -300,7 +334,7 @@ void a3demo_idle(a3_DemoState* demoState, a3f64 const dt)
 // callback implementations
 
 // demo is loaded
-A3DYLIBSYMBOL a3_DemoState *a3demoCB_load(a3_DemoState *demoState, a3boolean hotbuild)
+A3DYLIBSYMBOL a3_DemoState *a3demoCB_load(a3_DemoState *demoState, a3boolean hotbuild, a3i32 renderAPI)
 {
 	a3ui32 const stateSize = a3demo_getPersistentStateSize();
 	a3ui32 const trigSamplesPerDegree = 4;
@@ -355,7 +389,7 @@ A3DYLIBSYMBOL a3_DemoState *a3demoCB_load(a3_DemoState *demoState, a3boolean hot
 		// demo modes
 		demoState->demoMode = demoState_modePostProc;
 		a3demoMode_loadValidate(demoState);
-		a3demo_load(demoState);
+		a3demo_load(demoState, renderAPI);
 
 		// initialize state variables
 		// e.g. timer, thread, etc.
